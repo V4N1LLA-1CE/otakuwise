@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AppColours {
-    static let textPrimary = Color.white
+    static let textPrimary = Color("TextPrimary")
     
     static let primaryAccent = Color("PrimaryAccent")
     static let secondaryAccent = Color("SecondaryAccent")

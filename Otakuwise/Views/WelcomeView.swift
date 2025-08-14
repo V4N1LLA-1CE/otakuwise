@@ -10,6 +10,7 @@ import SwiftUI
 struct WelcomeView: View {
     @State private var animateLogo = false
     @State private var animateSubtitle = false
+    @State private var animateExploreButton = false
     
     var body: some View {
         ZStack {
@@ -20,6 +21,8 @@ struct WelcomeView: View {
                 Spacer()
                 mainSection
                 Spacer()
+                Spacer()
+                exploreButton
                 Spacer()
             }
         }
@@ -45,10 +48,10 @@ private extension WelcomeView {
             HStack() {
                 Spacer()
                 Spacer()
-                Spacer()
                 
-                Text("Stories that\n stay with you.")
-                    .font(.system(size: 18, weight: .medium, design: .rounded))
+                Text("Stories that\n stay with\n you.")
+                    .font(.custom("", size: 50, relativeTo: .largeTitle))
+                    .fontWeight(.medium)
                     .foregroundStyle(AppColours.secondaryAccent)
                     .multilineTextAlignment(.trailing)
                     .fontDesign(.rounded)
@@ -59,19 +62,46 @@ private extension WelcomeView {
                 
                 Spacer()
             }
-            
         }
+    }
+    
+    var exploreButton: some View {
+        NavigationLink(destination: DashboardView()) {
+            
+            HStack(spacing: 8) {
+                Image(systemName: "magnifyingglass")
+               
+                Text("Explore")
+                    .kerning(0.5)
+            }
+            // don't use text primary to keep font always white
+            .foregroundStyle(Color.white)
+            .frame(width: 200, height: 50)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [AppColours.primaryAccent, AppColours.secondaryAccent]),
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .cornerRadius(25)
+            .shadow(color: AppColours.primaryAccent.opacity(0.3), radius: 8, x: 0, y: 4)
+            .fontWeight(.heavy)
+            .fontDesign(.rounded)
+            .font(.body)
+        }
+        .scaleEffect(animateExploreButton ? 1.0 : 0.8)
+        .opacity(animateExploreButton ? 1.0 : 0.0)
+        .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(2.0), value: animateExploreButton)
     }
 }
 
 // MARK: - Actions
-/* TODO:
-    - create action for going to dashboard
- */
 private extension WelcomeView {
     func startAnimationSequence() {
         animateLogo = true
         animateSubtitle = true
+        animateExploreButton = true
     }
 }
 
